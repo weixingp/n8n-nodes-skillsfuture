@@ -30,9 +30,9 @@ export class SkillsFutureApi implements ICredentialType {
 		},
 		{
 			displayName: 'UAT Mode',
-			name: 'test_mode ',
+			name: 'test_mode',
 			type: 'boolean',
-			default: '',
+			default: false,
 		},
 	];
 }

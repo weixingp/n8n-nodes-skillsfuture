@@ -1,14 +1,14 @@
 {
   "name": "n8n-nodes-skillsfuture",
-  "version": "0.1.0",
-  "description": "",
+  "version": "0.2.0",
+  "description": "SkillsFuture SG API",
   "keywords": [
     "n8n-community-node-package"
   ],
   "license": "MIT",
   "homepage": "",
   "author": {
-    "name": "",
+    "name": "Weixing PENG",
     "email": "weixingp5@gmail.com"
   },
   "repository": {
@@ -58,9 +58,6 @@
   "dependencies": {
     "@types/crypto-js": "^4.2.2",
     "@types/request": "^2.48.12",
-    "WebstormProjects": "link:/Users/weixing/WebstormProjects",
-    "axios": "^1.7.7",
-    "n8n": "^1.57.0",
-    "nodes": "link:/Users/weixing/WebstormProjects/n8n-nodes-skillsfuture/nodes"
+    "axios": "^1.7.7"
   }
 }

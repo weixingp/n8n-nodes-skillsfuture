@@ -51,30 +51,37 @@ export class SkillsFuture implements INodeType {
 				},
 				options: [
 					{
-						name: 'Encrypt Payload',
-						value: 'encrypt_payload',
+						name: '[SFC] Encrypt Payload',
+						value: 'sfc_encrypt_payload',
 						action: 'Encrypt payload',
 						description: 'Encrypt SFC Pay request payload',
 					},
 					{
-						name: 'Decrypt Payload',
-						value: 'decrypt_payload',
+						name: '[SFC] Decrypt Payload',
+						value: 'sfc_decrypt_payload',
 						action: 'Decrypt payload',
 						description: 'Decrypt SFC Pay response payload',
+					},
+					{
+						name: '[SFC] Upload Supporting Document',
+						value: 'sfc_upload_document',
+						action: 'Upload supporting document',
+						description: 'Upload supporting document for a claim',
 					}
 				],
-				default: 'encrypt_payload',
+				default: 'sfc_encrypt_payload',
 			},
 			{
 				displayName: 'Course ID',
 				name: 'courseId',
 				type: 'string',
+				required: true,
 				default: '',
-				description: 'The course ID (e.g., TGS-2020002106)',
+				description: 'The course ID (e.g, TGS-2020002106)',
 				displayOptions: {
 					show: {
 						resource: ['sfc_pay'],
-						operation: ['encrypt_payload'],
+						operation: ['sfc_encrypt_payload'],
 					},
 				},
 			},
@@ -89,7 +96,7 @@ export class SkillsFuture implements INodeType {
 							'sfc_pay'
 						],
 						operation: [
-							'encrypt_payload',
+							'sfc_encrypt_payload',
 						]
 					},
 				},
@@ -99,13 +106,14 @@ export class SkillsFuture implements INodeType {
 				name: 'courseFee',
 				type: 'string',
 				default: "",
+				required: true,
 				displayOptions: {
 					show: {
 						resource: [
 							'sfc_pay',
 						],
 						operation: [
-							'encrypt_payload',
+							'sfc_encrypt_payload',
 						]
 					},
 				},
@@ -115,11 +123,12 @@ export class SkillsFuture implements INodeType {
 				name: 'courseStartDate',
 				type: 'dateTime',
 				default: '',
+				required: true,
 				description: 'The start date of the course',
 				displayOptions: {
 					show: {
 						resource: ['sfc_pay'],
-						operation: ['encrypt_payload'],
+						operation: ['sfc_encrypt_payload'],
 					},
 				},
 			},
@@ -128,10 +137,11 @@ export class SkillsFuture implements INodeType {
 				name: 'individualNric',
 				type: 'string',
 				default: '',
+				required: true,
 				displayOptions: {
 					show: {
 						resource: ['sfc_pay'],
-						operation: ['encrypt_payload'],
+						operation: ['sfc_encrypt_payload'],
 					},
 				},
 			},
@@ -140,10 +150,11 @@ export class SkillsFuture implements INodeType {
 				name: 'individualEmail',
 				type: 'string',
 				default: '',
+				required: true,
 				displayOptions: {
 					show: {
 						resource: ['sfc_pay'],
-						operation: ['encrypt_payload'],
+						operation: ['sfc_encrypt_payload'],
 					},
 				},
 			},
@@ -155,7 +166,7 @@ export class SkillsFuture implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['sfc_pay'],
-						operation: ['encrypt_payload'],
+						operation: ['sfc_encrypt_payload'],
 					},
 				},
 			},
@@ -167,7 +178,7 @@ export class SkillsFuture implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['sfc_pay'],
-						operation: ['encrypt_payload'],
+						operation: ['sfc_encrypt_payload'],
 					},
 				},
 			},
@@ -179,7 +190,7 @@ export class SkillsFuture implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['sfc_pay'],
-						operation: ['encrypt_payload'],
+						operation: ['sfc_encrypt_payload'],
 					},
 				},
 			}
@@ -188,17 +199,157 @@ export class SkillsFuture implements INodeType {
 			displayName: 'Encrypted Payload',
 			name: 'encryptedPayload',
 			type: 'string',
+			required: true,
 			default: '',
 			displayOptions: {
 				show: {
 					resource: ['sfc_pay'],
-					operation: ['decrypt_payload'],
+					operation: ['sfc_decrypt_payload'],
 				},
 			},
 			description: 'The encrypted claim response payload to decrypt',
-		}
-		]
-	};
+		},
+			{
+				displayName: 'NRIC',
+				name: 'nric',
+				type: 'string',
+				default: '',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['sfc_pay'],
+						operation: ['sfc_upload_document'],
+					},
+				},
+				description: 'The NRIC of the individual to upload the supporting document to',
+			},
+		{
+			displayName: 'Claim ID',
+			name: 'claimID',
+			type: 'string',
+			default: '',
+			required: true,
+			displayOptions: {
+				show: {
+					resource: ['sfc_pay'],
+					operation: ['sfc_upload_document'],
+				},
+			},
+			description: 'The claim ID to upload the supporting document to',
+		},
+		{
+			displayName: 'Attachment ID',
+			name: 'attachmentID',
+			type: 'string',
+			default: '',
+			displayOptions: {
+				show: {
+					resource: ['sfc_pay'],
+					operation: ['sfc_upload_document'],
+				},
+			},
+			description: 'The attachment ID to upload the supporting document to',
+		},
+			{
+				displayName: 'File (Base64)',
+				name: 'attachmentByte',
+				type: 'string',
+				required: true,
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['sfc_pay'],
+						operation: ['sfc_upload_document'],
+					},
+				},
+				description: 'The supporting document to upload in base64 format',
+			},
+		{
+			displayName: 'File Name',
+			name: 'fileName',
+			type: 'string',
+			default: '',
+			required: true,
+			displayOptions: {
+				show: {
+					resource: ['sfc_pay'],
+					operation: ['sfc_upload_document'],
+				},
+			},
+			description: 'The file name of the supporting document',
+		},
+		{
+			displayName: 'File Type',
+			name: 'fileType',
+			type: 'options',
+			default: 'pdf',
+			required: true,
+			options: [
+				{
+					name: 'DOC',
+					value: 'doc',
+				},
+				{
+					name: 'DOCX',
+					value: 'docx',
+				},
+				{
+					name: 'JPEG',
+					value: 'jpeg',
+				},
+				{
+					name: 'JPG',
+					value: 'jpg',
+				},
+				{
+					name: 'PDF',
+					value: 'pdf',
+				},
+				{
+					name: 'PNG',
+					value: 'png',
+				},
+				{
+					name: 'TIF',
+					value: 'tif',
+				},
+				{
+					name: 'XLS',
+					value: 'xls',
+				},
+				{
+					name: 'XLSM',
+					value: 'xlsm',
+				},
+				{
+					name: 'XLSX',
+					value: 'xlsx',
+				}
+			],
+			displayOptions: {
+				show: {
+					resource: ['sfc_pay'],
+					operation: ['sfc_upload_document'],
+				},
+			},
+			description: 'The file type of the supporting document',
+		},
+		{
+			displayName: 'File Size',
+			name: 'fileSize',
+			type: 'string',
+			default: '',
+			required: true,
+			displayOptions: {
+				show: {
+					resource: ['sfc_pay'],
+					operation: ['sfc_upload_document'],
+				},
+			},
+			description: 'The file size of the supporting document, with unit, eg: 12.5 MB',
+		},
+	]
+};
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();
 		const returnData: INodeExecutionData[] = [];
@@ -229,29 +380,45 @@ export class SkillsFuture implements INodeType {
 				//         SFC Pay
 				// ----------------------------------
 				if (resource === 'sfc_pay') {
-					if (operation === 'encrypt_payload') {
+					if (operation === 'sfc_encrypt_payload') {
 						requestMethod = 'POST'
 						endpoint = '/skillsFutureCredits/claims/encryptRequests'
 						body.claimRequest = {
 							course: {
-								id: this.getNodeParameter('courseId', i) as string,
-								runId: this.getNodeParameter('courseRunId', i) as string,
-								fee: this.getNodeParameter('courseFee', i) as string,
-								startDate: this.getNodeParameter('courseStartDate', i) as string,
+								id: this.getNodeParameter('courseId', i)?.toString(),
+								runId: this.getNodeParameter('courseRunId', i)?.toString(),
+								fee: this.getNodeParameter('courseFee', i)?.toString(),
+								startDate: this.getNodeParameter('courseStartDate', i)?.toString(),
 							},
 							individual: {
-								nric: this.getNodeParameter('individualNric', i) as string,
-								email: this.getNodeParameter('individualEmail', i) as string,
-								homeNumber: this.getNodeParameter('individualHomeNumber', i) as string,
-								mobileNumber: this.getNodeParameter('individualMobileNumber', i) as string,
+								nric: this.getNodeParameter('individualNric', i)?.toString(),
+								email: this.getNodeParameter('individualEmail', i)?.toString(),
+								homeNumber: this.getNodeParameter('individualHomeNumber', i)?.toString(),
+								mobileNumber: this.getNodeParameter('individualMobileNumber', i)?.toString(),
 							},
-							additionalInformation: this.getNodeParameter('additionalInformation', i) as string,
+							additionalInformation: this.getNodeParameter('additionalInformation', i)?.toString(),
 						};
-					} else if (operation === 'decrypt_payload') {
+					} else if (operation === 'sfc_decrypt_payload') {
 						requestMethod = 'POST'
 						endpoint = '/skillsFutureCredits/claims/decryptRequests'
-						body.claimResponse = {
+						body = {
 							claimRequestStatus: this.getNodeParameter('encryptedPayload', i) as string,
+						};
+					} else if (operation === 'sfc_upload_document') {
+						requestMethod = 'POST'
+						let claimID = this.getNodeParameter('claimID', i)?.toString()
+						endpoint = '/skillsFutureCredits/claims/' + claimID +'/supportingdocuments'
+						body = {
+							nric: this.getNodeParameter('nric', i) as string,
+							attachments: [
+								{
+									fileName: this.getNodeParameter('fileName', i)?.toString(),
+									fileType: this.getNodeParameter('fileType', i)?.toString(),
+									fileSize: this.getNodeParameter('fileSize', i)?.toString(),
+									attachmentId: this.getNodeParameter('attachmentID', i)?.toString(),
+									attachmentByte:  this.getNodeParameter('attachmentByte', i)?.toString(),
+								}
+							],
 						};
 					}
 				}

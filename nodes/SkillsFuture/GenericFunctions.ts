@@ -1,4 +1,10 @@
-import type {IDataObject, IExecuteFunctions, IHookFunctions, ILoadOptionsFunctions, JsonObject,} from 'n8n-workflow';
+import {
+	IDataObject,
+	IExecuteFunctions,
+	IHookFunctions,
+	ILoadOptionsFunctions,
+	JsonObject,
+} from 'n8n-workflow';
 import {NodeApiError, IHttpRequestMethods} from 'n8n-workflow';
 import * as CryptoJS from 'crypto-js';
 import axios, { AxiosRequestConfig } from 'axios'; // Added import for axios
@@ -19,7 +25,8 @@ export async function skillsFutureApiRequest(
 ):  Promise<any> {
 	const credentials = await this.getCredentials('skillsFutureApi');
 	let baseURL = "https://api.ssg-wsg.sg"
-	if (credentials.test_mode) {
+
+	if (credentials.test_mode as boolean) {
 		baseURL = "https://uat-api.ssg-wsg.sg"
 	}
 
@@ -54,13 +61,8 @@ export async function skillsFutureApiRequest(
 
 	try {
 		const response = await axios(options);
-
-		if (response.data.result != 0) {
-			throw new NodeApiError(this.getNode(), response.data as JsonObject);
-		}
-
 		if (decryptResponse) {
-			response.data.body = decryptBody(response.data.body, credentials.encryption_key.toString());
+			response.data = decryptBody(response.data, credentials.encryption_key.toString());
 		}
 		return response.data;
 	} catch (error) {
